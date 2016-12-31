@@ -22,8 +22,7 @@ public class MoveTest
 	@Before
 	public void BeforeTest()
 	{
-		System.out.println(MoveType.PHYSICAL_MELEE.getName());
-		testMove = new Move(1, 0, "Move", 0, 10, 0, 0, MoveType.PHYSICAL_MELEE.getName(), "Used", new String[]{"Miss"}, "A move");
+		testMove = new Move(MoveKind.NORMAL, 0, "Move", 0, 10, 0, 0, MoveType.PHYSICAL_MELEE.getName(), "Used", new String[]{"Miss"}, "A move");
 	}
 
 	/**

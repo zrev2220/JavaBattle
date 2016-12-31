@@ -43,16 +43,16 @@ public class Move
 	 * for when the user does not have enough SP.
 	 * @param desc Description of move
 	 */
-	public Move(int moveKind, int threshold, String name, int min, int max, int accuracy, int sp, String type, String usageMsgs, String[] missMsgs, String desc)
+	public Move(MoveKind moveKind, int threshold, String name, int min, int max, int accuracy, int sp, String type, String usageMsgs, String[] missMsgs, String desc)
 	{
-		this.kind = MoveKind.values()[moveKind - 1];
+		this.kind = moveKind;
 		this.battleThreshold = threshold;
 		this.name = name;
 		this.minimumPower = min;
 		this.maximumPower = max;
 		this.accuracy = accuracy;
 		this.SPcost = sp;
-		this.type = MoveType.fromString(name);
+		this.type = MoveType.fromString(type);
 		this.usageMessage = usageMsgs;
 		this.missMessages = missMsgs;
 		this.description = desc;

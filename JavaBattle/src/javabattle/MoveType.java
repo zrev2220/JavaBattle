@@ -1,4 +1,3 @@
-// TODO Add test class
 package javabattle;
 
 import java.security.InvalidParameterException;
@@ -43,10 +42,9 @@ public enum MoveType
 	{
 		for (MoveType type : MoveType.values())
 		{
-			System.out.println(type.getName());
 			if (type.getName().equals(name))
 				return type;
 		}
-		throw new InvalidParameterException("The given String does not correspond to any MoveType value.");
+		throw new InvalidParameterException("The given String \"" + name + "\" does not correspond to any MoveType value.");
 	}
 }

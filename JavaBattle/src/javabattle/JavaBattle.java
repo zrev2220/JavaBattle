@@ -1,4 +1,12 @@
 package javabattle;
+/* TODO:
+	- Write MoveFile class to handle reading .mv files, getting moves, querying
+move data (such as how many cause conditions, how many use SP, etc.)
+	- Write PlayerTurn class to execute a player's move and record results (hit/miss,
+SMAAAASH, KO, etc.)
+*/
+
+import java.util.Random;
 
 /**
  * Singleton class holding all variables for a battle: two PlayerData objects
@@ -8,13 +16,16 @@ package javabattle;
 public class JavaBattle
 {
 	private static JavaBattle instance;
-	
 	private JavaBattle() {}
-	
 	public static JavaBattle getInstance()
 	{
 		if (instance == null)
 			instance = new JavaBattle();
 		return instance;
 	}
+	
+	public PlayerData[] player = new PlayerData[2];
+	public Move[] moves = null;
+	
+	public Random myRandom = new Random();
 }
