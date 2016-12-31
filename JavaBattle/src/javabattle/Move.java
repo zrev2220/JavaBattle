@@ -64,7 +64,16 @@ public class Move
 	/**
 	 * @return Move's maximum power
 	 */
-	public int getMaximumPower() { return maximumPower;	}
+	public int getMaximumPower() { return this.maximumPower; }
+	/**
+	 * @return Boolean for whether move is a special case or not
+	 */
+	public boolean isSpecialCase() { return this.specialCase; }
+	
+	/**
+	 * @param flag Value to set move's {@code specialCase} field
+	 */
+	public void setSpecialCase(boolean flag) { this.specialCase = flag; }
 	
 	/**
 	 * Generates a random value between the move's minimum and maximum power values
@@ -84,5 +93,31 @@ public class Move
 			return (minimumPower + myRandom.nextInt(range + 1));
 	}
 	
-	// TODO continue adding Move class methods
+	/**
+	 * @return String representation of move's power range, min to max
+	 */
+	public String getPowerRangeString()
+	{
+//		if (this.healInt == 1 || this.healInt == 3)
+//		{
+//			// restores HP
+//			if (minimumPower == maximumPower)
+//				return String.valueOf("+" + maximumPower);
+//			else
+//				return String.valueOf("+" + minimumPower + "-+" + maximumPower);
+//		}
+//		else if (this.kindInt == Move.DEFENSE)
+//		{
+//			return "x" + String.valueOf(counterRatio);
+//		}
+//		else
+		{
+			if (minimumPower == maximumPower)
+				return String.valueOf(maximumPower);
+			else
+				return String.valueOf(minimumPower + "-" + maximumPower);
+		}
+	}
+	
+	// TODO Add methods related to stats, conditions, healing, or defense
 }

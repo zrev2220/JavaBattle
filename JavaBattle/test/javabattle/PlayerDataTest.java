@@ -26,6 +26,5 @@ public class PlayerDataTest
 		assert p.SP == 5;
 		assert p.maxSP == 5;
 		assert p.sprite.equals("nofile.png");
-		System.out.println("Hello, we're testing.");
 	}
 }
