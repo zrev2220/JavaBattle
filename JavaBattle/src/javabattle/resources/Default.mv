@@ -21,7 +21,7 @@ But * didn't shout loud enough.~But ` couldn't hear it very well.~` wasn't phase
 If you intimidate the foe, their guts will go down, decreasing their likelihood of SMAAAASH attacks and critical hit survival.  This may be good to use if you're poised to finish off your foe—you don't want them to barely survive due to high guts.
 3~0~Brainshock α~0~0~80~16~Status~Confused~100~5~* tried Brainshock α!
 * tried Brainshock α,~It did not work on `!
-This move does something to your target's brain where they feel unusual and start acting strange.  In this confused state, your enemy's attacks may damage themselves, or healing moves may accidentally help you!
+This move does something to your target's brain where they feel unusual and start acting strange.  In this confused state, your enemy may attack himself, or healing moves may accidentally help you!
 1~70~Bullet Bill~38~50~80~7~Physical - Projectile~* fired a Bullet Bill!
 * tried to fire a Bullet Bill,~...narrowly missing the target!~Just missed!~` dodged swiftly!~` barely evaded it!
 Fire a Bullet Bill at the enemy!  Hits quite hard; a good use of SP.
@@ -51,7 +51,7 @@ A stronger relative to Thunder.  This energy orb is larger and slower, but deals
 Throw a fireball at the enemy.  Reasonably accurate, SP-cheap, and moderately powerful.  It even has a small chance of burning the target.
 2~0~Focus Fire~0~0~100~10~Status~Accuracy~3~6~* activated a Focus Fire!
 ` tried to use a Focus Fire,
-A augmentation device used by soldiers on the Battlefront™ (heh-heh) that substantially increases a weapon's accuracy.  Here, it makes your Accuracy stat go up, allowing you to cut down on your misses!  Time to risk a Home-Run Bat...
+A augmentation device used by soldiers on the Battlefront™ that substantially increases a weapon's accuracy.  Here, it makes your Accuracy stat go up, allowing you to cut down on your misses!  Time to risk a Home-Run Bat...
 1~0~Ground Pound~28~36~80~0~Physical - Melee~* performed a ground pound!
 Just missed!~` dodged swiftly!~` barely evaded it!
 Jump into the air, then slam down with a ground pound.  It's as accurate as a Jump Stomp, but about twice as powerful.
@@ -102,7 +102,7 @@ Fire the homing Missile Bill at your foe!  It's just as powerful as the Bullet B
 Increases your offense substantially, allowing subsequent attacks to hit harder than usual.  You can get the most mileage out of this if you layer the effect by using it several times.
 1~0~POW Block~20~40~90~0~Special - Melee~* detonated a POW Block!
 It did not work on `!~` jumped and dodged the shockwave!~` dodged swiftly!~` barely evaded it!
-When you disturb this block, it sends out a shockwave through the earth, sort of like a mini-earthquake.  The wave doesn't count as a physical attack, so you can even use this when you're paralyzed!  It doesn't cost any SP, too!
+When you disturb this block, it sends out a shockwave through the earth, sort of like a mini-earthquake.  The wave doesn't count as a physical attack, so you can even use this when you're paralyzed!  It doesn't cost any SP either!
 3~150~PSI Freeze α~40~60~85~15~Special - Projectile~Frozen~20~2~* tried PSI Freeze α!
 * tried PSI Freeze α,~It did not work on `!
 An icy wind blows into the area and deals some chilly damage to the foe.  It's an expensive move, but packs some punch.  You may even freeze the target completely!
@@ -168,7 +168,7 @@ Just missed!~` dodged swiftly!~` barely evaded it!
 Mount the ever-benevolent dinosaur, Yoshi, and use his faithful tongue attack.  Not the most potent move in the world, but better than Banana (and others).
 3~0~ε Beam~25~27~85~0~Special - Projectile~Paralyzed~40~4~* fired an ε Beam!
 But it missed.~Just missed!~` barely evaded it!~` dodged swiftly!~...narrowly missing the target!~But something went wrong.
-A concentrated laser beam.  While it's not a earth-shaking move, its damage is stable and it doesn't miss that often.  There's also a slight chance to shocking and stunning your foe.
+A concentrated laser beam.  While it's not a earth-shaking move, its damage is stable and it doesn't miss that often.  There's also a slight chance of shocking and stunning your foe.
 3~0~ο Beam~17~40~90~0~Special - Projectile~Confused~40~5~* fired an ο Beam!
 But it missed.~Just missed!~` barely evaded it!~` dodged swiftly!~...narrowly missing the target!~But something went wrong.
 A beam similar to the ε Beam, but with a slightly wider laser radius.  Its damage ranges from low to high, but it misses slightly less than the ε.  The laser emits a strange wave pulse that can confuse some targets.

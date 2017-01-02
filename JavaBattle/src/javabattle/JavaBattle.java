@@ -26,6 +26,7 @@ public class JavaBattle
 	
 	public PlayerData[] player = new PlayerData[2];
 	public Move[] moves = null;
+	public Move[] availableMoves = new Move[4];
 	
 	public Random myRandom = new Random();
 }
