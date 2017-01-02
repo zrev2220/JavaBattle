@@ -29,4 +29,9 @@ public class JavaBattle
 	public Move[] availableMoves = new Move[4];
 	
 	public Random myRandom = new Random();
+	
+	public String getResourcePath(String filename)
+	{
+		return "";
+	}
 }
