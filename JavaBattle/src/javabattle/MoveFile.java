@@ -22,8 +22,8 @@ public class MoveFile
 {
 	private ArrayList<Move> moves = null;
 	private int numMoves = 0;
-	public Move defend = null;
-	public Move rest = null;
+	public SpecialCaseMove defend = null;
+	public SpecialCaseMove rest = null;
 	
 	private Random myRandom = new Random();
 	
@@ -64,15 +64,15 @@ public class MoveFile
 				// first line - general data
 				myTokenizer = new StringTokenizer(lineList.get(i), "~");
 				boolean isSpecialCase = false;
-				MoveKind moveKind;
+				int moveKind;
 				try
 				{
-					moveKind = MoveKind.values()[Integer.valueOf(myTokenizer.nextToken()) - 1];
+					moveKind = Integer.valueOf(myTokenizer.nextToken());
 				} catch (NumberFormatException ex)
 				{
 					// special case move (kind no. had a '!' before it)
 					String num = ex.getMessage().substring(20, ex.getMessage().lastIndexOf("\""));
-					moveKind = MoveKind.values()[Integer.valueOf(num) - 1];
+					moveKind = Integer.valueOf(num) - 1;
 					isSpecialCase = true;
 				}
 				int threshold = Integer.valueOf(myTokenizer.nextToken());
@@ -80,7 +80,7 @@ public class MoveFile
 				int min = 0;
 				int max = 0;
 				double ratio = 0.0;
-				if (moveKind != MoveKind.DEFENSE)
+				if (moveKind != 5)
 				{
 					min = Integer.valueOf(myTokenizer.nextToken());
 					max = Integer.valueOf(myTokenizer.nextToken());
@@ -95,10 +95,10 @@ public class MoveFile
 				String st_conType = "";
 				int stMin_conChance = 0, stMax_conDur = 0;
 				String[] condsHealed = null;
-				if (moveKind == MoveKind.HEALING)
+				if (moveKind == 4)
 				{
 					condsHealed = myTokenizer.nextToken().split("/");
-				} else if (moveKind == MoveKind.STAT || moveKind == MoveKind.CONDITION)
+				} else if (moveKind == 2 || moveKind == 3)
 				{
 					st_conType = myTokenizer.nextToken();
 					stMin_conChance = Integer.valueOf(myTokenizer.nextToken());
@@ -118,24 +118,29 @@ public class MoveFile
 				String desc = lineList.get(i + 2);
 				// construct move
 				Move newMove = null;
-				switch (moveKind)
+				if (isSpecialCase)
 				{
-					// TODO Un-comment these cases once the other Move ctors work
-//				case STAT:
-//				case CONDITION:
-//					newMove = new Move(moveKind, threshold, name, min, max, acc, sp, type, st_conType, stMin_conChance, stMax_conDur, useTxt, missMsgs, desc));
-//					break;
-//				case HEALING:
-//					newMove = new Move(moveKind, threshold, name, min, max, acc, sp, type, condsHealed, useTxt, missMsgs, desc));
-//					break;
-//				case DEFENSE:
-//					newMove = new Move(moveKind, threshold, name, ratio, acc, sp, type, useTxt, missMsgs, desc);
-//					break;
+					newMove = new SpecialCaseMove(threshold, name, min, max, acc, sp, type, useTxt, missMsgs, desc);
+				} else
+				{
+					switch (moveKind)
+					{
+						// TODO Un-comment these cases once the other Move ctors work
+//					case STAT:
+//					case CONDITION:
+//						newMove = new Move(moveKind, threshold, name, min, max, acc, sp, type, st_conType, stMin_conChance, stMax_conDur, useTxt, missMsgs, desc));
+//						break;
+//					case HEALING:
+//						newMove = new Move(moveKind, threshold, name, min, max, acc, sp, type, condsHealed, useTxt, missMsgs, desc));
+//						break;
+//					case DEFENSE:
+//						newMove = new Move(moveKind, threshold, name, ratio, acc, sp, type, useTxt, missMsgs, desc);
+//						break;
 					default:
-						newMove = new Move(moveKind, threshold, name, min, max, acc, sp, type, useTxt, missMsgs, desc);
+						newMove = new Move(threshold, name, min, max, acc, sp, type, useTxt, missMsgs, desc);
 						break;
+					}
 				}
-				newMove.setSpecialCase(isSpecialCase);
 				moves.add(newMove);
 			}
 		} catch (NoSuchElementException ex)
@@ -145,10 +150,8 @@ public class MoveFile
 		// add Defend and Rest to moves
 		// TODO Use the next line instead of the next next once DEFENSE-type moves are working
 //		Move defend = new Move(MoveKind.DEFENSE, 0, "Defend", 0.0, 100, 0, MoveType.DEFENSE_GUARD.getName(), "* is on guard.", new String[]{"..."}, "...");
-		defend = new Move(MoveKind.NORMAL, 0, "Defend", 0, 0, 0, 0, MoveType.DEFENSE_GUARD.getName(), "* is on guard.", new String[]{"..."}, "...");
-		defend.setSpecialCase(true);
-		rest = new Move(MoveKind.NORMAL, 0, "Rest", 0, 0, 0, 0, MoveType.OTHER.getName(), "* is resting.", new String[]{"..."}, "...");
-		rest.setSpecialCase(true);
+		defend = new SpecialCaseMove(0, "Defend", 0, 0, 0, 0, MoveType.DEFENSE_GUARD.getName(), "* is on guard.", new String[]{"..."}, "...");
+		rest = new SpecialCaseMove(0, "Rest", 0, 0, 0, 0, MoveType.OTHER.getName(), "* is resting.", new String[]{"..."}, "...");
 		
 		this.numMoves = moves.size();
 	}
