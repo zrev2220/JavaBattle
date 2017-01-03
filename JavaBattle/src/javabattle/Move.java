@@ -12,7 +12,6 @@ import java.util.Random;
  */
 public class Move
 {
-	public MoveKind kind;
 	public int battleThreshold;
 	public String name;
 	private int minimumPower;
@@ -24,13 +23,11 @@ public class Move
 	public String usageMessage;
 	public String[] missMessages;
 	public String description;
-	private boolean specialCase;
 	
 	private Random myRandom = new Random();
 	
 	/**
 	 * Default constructor for {@link MoveKind.NORMAL}-kind moves
-	 * @param moveKind Integer (NOT zero-based) corresponding to which {@link MoveKind} the move is (e.g. 1 would be a {@link MoveKind.NORMAL}-kind move)
 	 * @param threshold Battle threshold; move will not be used in battles where both players start with less than this much HP
 	 * @param name Move name
 	 * @param min Move's minimum power
@@ -43,9 +40,8 @@ public class Move
 	 * for when the user does not have enough SP.
 	 * @param desc Description of move
 	 */
-	public Move(MoveKind moveKind, int threshold, String name, int min, int max, int accuracy, int sp, String type, String usageMsgs, String[] missMsgs, String desc)
+	public Move(int threshold, String name, int min, int max, int accuracy, int sp, String type, String usageMsgs, String[] missMsgs, String desc)
 	{
-		this.kind = moveKind;
 		this.battleThreshold = threshold;
 		this.name = name;
 		this.minimumPower = min;
@@ -56,7 +52,6 @@ public class Move
 		this.usageMessage = usageMsgs;
 		this.missMessages = missMsgs;
 		this.description = desc;
-		this.specialCase = false;
 	}
 	
 	// TODO add other ctors
@@ -65,18 +60,9 @@ public class Move
 	 * @return Move's maximum power
 	 */
 	public int getMaximumPower() { return this.maximumPower; }
-	/**
-	 * @return Boolean for whether move is a special case or not
-	 */
-	public boolean isSpecialCase() { return this.specialCase; }
 	
 	/**
-	 * @param flag Value to set move's {@code specialCase} field
-	 */
-	public void setSpecialCase(boolean flag) { this.specialCase = flag; }
-	
-	/**
-	 * Generates a random value between the move's minimum and maximum power values
+	 * Generates a random value between the move's minimum and maximum power values.
 	 * @param override If a fixed value is desired, returns this value. Generates random as usual if value is -1 or outside the min to max range
 	 * @return Random value between min and max power
 	 */
@@ -91,6 +77,16 @@ public class Move
 			return maximumPower;
 		else
 			return (minimumPower + myRandom.nextInt(range + 1));
+	}
+	
+	/**
+	 * Generates a random value between the move's minimum and maximum power values. 
+	 * Same as calling getPower(-1).
+	 * @return Random value between min and max power
+	 */
+	public int getPower()
+	{
+		return getPower(-1);
 	}
 	
 	/**
@@ -156,4 +152,57 @@ public class Move
 	}
 	
 	// TODO Add methods related to stats, conditions, healing, or defense
+
+	/**
+	 * Executes the move from {@code user} to {@code target}. Checks accuracy for 
+	 * miss/hit, inflicts damage, deducts SP, determines SMAAAASH, determines critical 
+	 * hit, and returns a {@link MoveResults} object reflecting these data.
+	 * @param user PlayerData attacking with the move
+	 * @param target PlayerData being attacked
+	 * @return {@link MoveResults} object configured with the move's outcome data
+	 */
+	public MoveResults execute(PlayerData user, PlayerData target)
+	{
+		// check user's SP if move requires it
+		if (this.SPcost != 0)
+		{
+			if (user.SP < this.SPcost)
+				return new MoveResults(this, false, true);
+			else
+				// deduct sp and continue
+				user.SP -= this.SPcost;
+		}
+		// see if move misses or not
+		int rand = myRandom.nextInt(100);
+		boolean miss = rand >= this.accuracy;
+		if (miss)
+		{
+			// return miss
+			return new MoveResults(this, false, false);
+		}
+		else
+		{
+			int power = getPower();
+			// check for SMAAAASH
+			boolean smaaaash = false;
+			if (this.type == MoveType.PHYSICAL_MELEE)
+			{
+				rand = myRandom.nextInt(100);
+				smaaaash = rand < 10;
+				if (smaaaash)
+					power *= 2.0 + myRandom.nextDouble();
+			}
+			target.HP -= power;
+			// if critical hit, check guts for survival
+			rand = myRandom.nextInt(100);
+			if (target.HP <= 0 && rand < 10)
+				// target survives with 1 HP
+				target.HP = 1;
+			// round target's HP to 0 if below
+			if (target.HP <= 0)
+				target.HP = 0;
+			
+			return new MoveResults(this, true, power, smaaaash, target.HP == 0);
+		}
+	}
 }

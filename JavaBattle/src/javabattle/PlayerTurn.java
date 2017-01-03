@@ -9,12 +9,9 @@ public class PlayerTurn
 	public PlayerData user;
 	public PlayerData target;
 	public Move move;
+	public MoveResults result;
 	public String useMsg;
 	public String missMsg;
-	public boolean hit;
-	public boolean smaaaash;
-	public int damage;
-	public boolean critical;
 	/* TODO Un-comment when these classes exist
 	public StatusCondition condition;
 	public StatChangeThingy statThing;
@@ -36,24 +33,31 @@ public class PlayerTurn
 		this.user = user_;
 		this.target = target_;
 		this.move = user_.nextMove;
+		this.result = null;
 		this.useMsg = "";
 		this.missMsg = "";
-		this.hit = false;
-		this.smaaaash = false;
-		this.damage = 0;
-		this.critical = false;
+		
 		this.executed = false;
 	}
 	
 	/**
 	 * Executes {@code user}'s {@code nextMove} using {@link Move.execute}. The 
-	 * {@code PlayerTurn}'s fields are then set to values based on the turn's results.
+	 * {@code PlayerTurn}'s fields are then set to values based on the move's results.
 	 */
 	public void execute()
 	{
-		// TODO Implement Move.execute()
-//		move.execute(...);
-		useMsg = move.getUsageMessage(user, target);
+		result = move.execute(user, target);
+		if (result.insufficientSP)
+		{
+			useMsg = move.getMissMessage(user, target);
+			missMsg = "But * doesn't have enough SP!".replace("*", user.name);
+		}
+		else
+		{
+			useMsg = move.getUsageMessage(user, target);
+			if (!result.hit)
+				missMsg = move.getMissMessage(user, target);				
+		}
 		
 		executed = true;
 	}

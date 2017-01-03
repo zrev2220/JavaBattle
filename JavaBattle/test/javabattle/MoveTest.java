@@ -11,7 +11,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
  * @author Zac Hayes
  */
 public class MoveTest
@@ -23,7 +22,7 @@ public class MoveTest
 	@Before
 	public void BeforeTest()
 	{
-		testMove = new Move(MoveKind.NORMAL, 0, "Move", 0, 10, 90, 0, MoveType.PHYSICAL_MELEE.getName(), "* used the test move on `!",
+		testMove = new Move(0, "Move", 0, 10, 90, 0, MoveType.PHYSICAL_MELEE.getName(), "* used the test move on `!",
 			new String[]{
 				"* missed!",
 				"Just missed!",
@@ -41,32 +40,6 @@ public class MoveTest
 		int expResult = 10;
 		int result = testMove.getMaximumPower();
 		assertEquals(expResult, result);
-	}
-
-	/**
-	 * Test of isSpecialCase method, of class Move.
-	 */
-	@Test
-	public void testIsSpecialCase()
-	{
-		System.out.println("isSpecialCase");
-		boolean expResult = false;
-		boolean result = testMove.isSpecialCase();
-		assertEquals(expResult, result);
-	}
-
-	/**
-	 * Test of setSpecialCase method, of class Move.
-	 */
-	@Test
-	public void testSetSpecialCase()
-	{
-		System.out.println("setSpecialCase");
-		boolean flag = true;
-		testMove.setSpecialCase(flag);
-		assert testMove.isSpecialCase();
-		testMove.setSpecialCase(!flag);
-		assert !testMove.isSpecialCase();
 	}
 
 	/**
@@ -120,7 +93,7 @@ public class MoveTest
 		PlayerData target = new PlayerData(1, "Dick", 100, 30, "");
 		String result = testMove.getMissMessage(user, target);
 		assert Arrays.binarySearch(testMove.missMessages, result.replace(user.name, "*").replace(target.name, "`")) >= 0;
-		Move anotherTestMove = new Move(testMove.kind, testMove.battleThreshold, "Another move", 0, 10, 90, 40, testMove.type.getName(), "* used another test move!",
+		Move anotherTestMove = new Move(testMove.battleThreshold, "Another move", 0, 10, 90, 40, testMove.type.getName(), "* used another test move!",
 			new String[]{
 				"* tried to use another test move,",
 				"* missed!",
