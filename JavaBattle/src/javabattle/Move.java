@@ -119,5 +119,41 @@ public class Move
 		}
 	}
 	
+	/**
+	 * Returns the move's {@code usageMessage} with the user's name in place of 
+	 * every '*' and the target's name in place of every '`'.
+	 * @param user PlayerData using the move
+	 * @param target PlayerData the move is being used on
+	 * @return This move's {@code usageMessage} with the user and target's names inserted
+	 */
+	public String getUsageMessage(PlayerData user, PlayerData target)
+	{
+		return this.usageMessage.replace("*", user.name).replace("`", target.name);
+	}
+	
+	/**
+	 * Returns a random miss message from the move's {@code missMessages} array 
+	 * with the user's name in place of every '*' and the target's name in place 
+	 * of every '`'. If the user does not have enough SP to use the move, returns 
+	 * the first miss message (for when the user doesn't have enough SP).
+	 * @param user PlayerData using the move
+	 * @param target PlayerData the move is being used on
+	 * @return Appropriate miss message with the user and target's names inserted
+	 */
+	public String getMissMessage(PlayerData user, PlayerData target)
+	{
+		String msg;
+		boolean noSP = user.SP < this.SPcost;
+		if (noSP)
+			msg = this.missMessages[0];
+		else
+			if (this.SPcost != 0)
+				// can't pick the first one
+				msg = this.missMessages[myRandom.nextInt(this.missMessages.length - 1) + 1];
+			else
+				msg = this.missMessages[myRandom.nextInt(this.missMessages.length)];
+		return msg.replace("*", user.name).replace("`", target.name);
+	}
+	
 	// TODO Add methods related to stats, conditions, healing, or defense
 }

@@ -7,6 +7,7 @@ package javabattle;
  */
 public class PlayerData
 {
+	public int number;
 	public String name;
 	public int HP;
 	public int maxHP;
@@ -17,13 +18,15 @@ public class PlayerData
 	
 	/**
 	 * PlayerData constructor
+	 * @param num Player number (0 for P1, 1 for P2)
 	 * @param name Player's name
 	 * @param hp Player's HP; sets both current HP and max HP
 	 * @param sp Player's SP; sets both current SP and max SP
 	 * @param sprite Filename of player's sprite
 	 */
-	public PlayerData(String name, int hp, int sp, String sprite)
+	public PlayerData(int num, String name, int hp, int sp, String sprite)
 	{
+		this.number = num;
 		this.name = name;
 		this.HP = hp;
 		this.maxHP = hp;

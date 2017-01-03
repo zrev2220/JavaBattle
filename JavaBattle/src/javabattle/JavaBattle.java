@@ -1,9 +1,9 @@
 package javabattle;
 /* TODO:
-	- Write MoveFile class to handle reading .mv files, getting moves, querying
-move data (such as how many cause conditions, how many use SP, etc.)
 	- Write PlayerTurn class to execute a player's move and record results (hit/miss,
 SMAAAASH, KO, etc.)
+	- Write Move.execute()
+	- Write Statistics class to hold # of turns, etc.
 */
 
 import java.util.Random;

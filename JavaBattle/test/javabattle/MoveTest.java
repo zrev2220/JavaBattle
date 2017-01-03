@@ -5,6 +5,7 @@
  */
 package javabattle;
 
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -22,7 +23,12 @@ public class MoveTest
 	@Before
 	public void BeforeTest()
 	{
-		testMove = new Move(MoveKind.NORMAL, 0, "Move", 0, 10, 0, 0, MoveType.PHYSICAL_MELEE.getName(), "Used", new String[]{"Miss"}, "A move");
+		testMove = new Move(MoveKind.NORMAL, 0, "Move", 0, 10, 90, 0, MoveType.PHYSICAL_MELEE.getName(), "* used the test move on `!",
+			new String[]{
+				"* missed!",
+				"Just missed!",
+				"` barely evaded it!"},
+			"A move");
 	}
 
 	/**
@@ -86,6 +92,43 @@ public class MoveTest
 		System.out.println("getPowerRangeString");
 		String expResult = "0-10";
 		String result = testMove.getPowerRangeString();
+		assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of getUsageMessage method, of class Move.
+	 */
+	@Test
+	public void testGetUsageMessage()
+	{
+		System.out.println("getUsageMessage");
+		PlayerData user = new PlayerData(0, "Joe", 100, 30, "");
+		PlayerData target = new PlayerData(1, "Bill", 100, 30, "");
+		String expResult = "Joe used the test move on Bill!";
+		String result = testMove.getUsageMessage(user, target);
+		assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of getMissMessage method, of class Move.
+	 */
+	@Test
+	public void testGetMissMessage()
+	{
+		System.out.println("getMissMessage");
+		PlayerData user = new PlayerData(0, "Tom", 100, 30, "");
+		PlayerData target = new PlayerData(1, "Dick", 100, 30, "");
+		String result = testMove.getMissMessage(user, target);
+		assert Arrays.binarySearch(testMove.missMessages, result.replace(user.name, "*").replace(target.name, "`")) >= 0;
+		Move anotherTestMove = new Move(testMove.kind, testMove.battleThreshold, "Another move", 0, 10, 90, 40, testMove.type.getName(), "* used another test move!",
+			new String[]{
+				"* tried to use another test move,",
+				"* missed!",
+				"Just missed!",
+				"` barely evaded it!"},
+			"Another test move.");
+		String expResult = "Tom tried to use another test move,";
+		result = anotherTestMove.getMissMessage(user, target);
 		assertEquals(expResult, result);
 	}
 }
