@@ -11,6 +11,12 @@ public class MoveResults
 	public int damage;
 	public boolean critical;
 
+	/**
+	 * Constructor for a move result where the move missed, either by accuracy or insufficient SP.
+	 * @param move The move used
+	 * @param hit_ Boolean value for whether the move hit or missed
+	 * @param noSp Boolean value for whether the user had enough SP to use the move or not
+	 */
 	public MoveResults(Move move, boolean hit_, boolean noSp)
 	{
 		this.hit = hit_;
@@ -20,6 +26,16 @@ public class MoveResults
 		this.critical = false;
 	}
 
+	/**
+	 * Constructor for a move result where the move hit. Configures the MoveResult 
+	 * object with a damage value and whether the attack was a SMAAAASH or if it 
+	 * was a critical hit.
+	 * @param move The move used
+	 * @param hit_ Boolean value for whether the move hit or missed
+	 * @param damage_ Amount of damage inflicted
+	 * @param smaaaash_ Boolean value for whether or not the move was a SMAAAASH
+	 * @param critical_ Boolean value for whether or not the move caused a critical hit (i.e. the target was KO'd)
+	 */
 	public MoveResults(Move move, boolean hit_, int damage_, boolean smaaaash_, boolean critical_)
 	{
 		this.hit = hit_;
