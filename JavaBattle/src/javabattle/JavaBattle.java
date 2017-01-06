@@ -1,6 +1,5 @@
 package javabattle;
 /* TODO:
-	- Add Javadoc to Move.java, MoveResults.java
 	- Write PlayerTurn class to execute a player's move and record results (hit/miss,
 SMAAAASH, KO, etc.)
 	- Write Move.execute()

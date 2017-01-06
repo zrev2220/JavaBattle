@@ -94,6 +94,7 @@ public class Move
 	 */
 	public String getPowerRangeString()
 	{
+		// TODO Un-comment this when other move types work
 //		if (this.healInt == 1 || this.healInt == 3)
 //		{
 //			// restores HP
