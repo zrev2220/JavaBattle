@@ -7,6 +7,8 @@ SMAAAASH, KO, etc.)
 	- Write Statistics class to hold # of turns, etc.
 */
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -17,22 +19,63 @@ import java.util.Random;
 public class JavaBattle
 {
 	private static JavaBattle instance;
-	private JavaBattle() {}
+
+	public PlayerData[] player;
+	public ArrayList<Move> moves;
+	public ArrayList<Move> availableMoves;
+
+	public Random myRandom = new Random();
+
+	private JavaBattle()
+	{
+		this.player = new PlayerData[2];
+		this.moves = new ArrayList<>();
+		this.availableMoves = new ArrayList<>();
+	}
+
 	public static JavaBattle getInstance()
 	{
 		if (instance == null)
 			instance = new JavaBattle();
 		return instance;
 	}
-	
-	public PlayerData[] player = new PlayerData[2];
-	public Move[] moves = null;
-	public Move[] availableMoves = new Move[4];
-	
-	public Random myRandom = new Random();
-	
-	public String getResourcePath(String filename)
+
+	public void config(PlayerData[] players, String movesetFilename)
 	{
-		return "";
+		this.player = players;
+		try
+		{
+			MoveFile moveFile = new MoveFile(movesetFilename);
+			this.moves = moveFile.getMoves();
+		} catch (IOException ex)
+		{
+			System.err.println("Error reading move file - " + ex.getMessage());
+		}
+		setAvailableMoves();
+	}
+
+	public Move strToMove(String str)
+	{
+		for (Move move : moves)
+		{
+			if (move.name.equals(str))
+				return move;
+		}
+		return null;
+	}
+
+	private void setAvailableMoves()
+	{
+		availableMoves.clear();
+		for (int i = 0; i < 4; i++)
+		{
+			Move selected;
+			do
+			{
+				selected = moves.get(myRandom.nextInt(moves.size()));
+			}
+			while (availableMoves.contains(selected));
+			availableMoves.add(selected);
+		}
 	}
 }

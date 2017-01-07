@@ -16,28 +16,35 @@ public class Main
 	public static void main(String[] args)
 	{
 		ArrayList<String> argsList = new ArrayList<>(Arrays.asList(args));
-		
+
 		if (argsList.contains("-console"))
 		{
 			runConsoleVersion();
 		}
 	}
-	
+
 	/**
-	 * Runs console version of game. All prompts and results are printed to and 
-	 * input received from the output window/command line. This version of the 
-	 * game is run when the program is run with the argument {@code -console}.
+	 * Runs console version of game. All prompts and results are printed to and
+	 *  input received from the output window/command line. This version of the
+	 *  game is run when the program is run with the argument {@code -console}.
 	 */
 	public static void runConsoleVersion()
 	{
-		// TODO Add "Is this correct?" at end and start over if no
-		// TODO Start battle once setup's over
 		Scanner input = new Scanner(System.in);
+		doSetup(input);
+		doBattle(input);
+	}
+
+	private static void doSetup(Scanner input)
+	{
 		System.out.println("Welcome to JavaBattle!\n");
 		System.out.println("----Setup----");
+		String p1name, p2name;
+		int p1hp, p1sp, p2hp, p2sp;
+		String moveset = "Default";
 		do
 		{
-			Validator<String> numberValidator = new Validator<String>() 
+			Validator<String> numberValidator = new Validator<String>()
 			{
 				@Override
 				public String validate(String thing)
@@ -57,9 +64,8 @@ public class Main
 					return null;
 				}
 			};
-			String p1name;
 			do
-			{				
+			{
 				System.out.print("Player 1's name: ");
 				p1name = input.nextLine();
 				if (p1name.equals(""))
@@ -69,11 +75,10 @@ public class Main
 				}
 				break;
 			} while (true);
-			int p1hp = prompt("Player 1's HP (default 300): ", input, numberValidator, 300);
-			int p1sp = prompt("Player 1's SP (default 50): ", input, numberValidator, 50);
-			String p2name;
+			p1hp = prompt("Player 1's HP (default 300): ", input, numberValidator, 300);
+			p1sp = prompt("Player 1's SP (default 50): ", input, numberValidator, 50);
 			do
-			{				
+			{
 				System.out.print("Player 2's name: ");
 				p2name = input.nextLine();
 				if (p2name.equals(""))
@@ -88,10 +93,9 @@ public class Main
 				}
 				break;
 			} while (true);
-			int p2hp = prompt("Player 2's HP (default 300): ", input, numberValidator, 300);
-			int p2sp = prompt("Player 2's SP (default 50): ", input, numberValidator, 50);
+			p2hp = prompt("Player 2's HP (default 300): ", input, numberValidator, 300);
+			p2sp = prompt("Player 2's SP (default 50): ", input, numberValidator, 50);
 			// load move files from resources folder
-			String moveset = "Default";
 			File movesetsFolder = new File("resources/movesets");
 			ArrayList<String> movesetFiles = new ArrayList<>(Arrays.asList(movesetsFolder.list()));
 			if (movesetFiles.size() != 1)
@@ -137,7 +141,7 @@ public class Main
 				});
 				moveset = movesetFiles.get(choice - 1).substring(0, movesetFiles.get(choice).lastIndexOf(".mv"));
 			}
-			
+
 			// confirm setup
 			System.out.println("Let's confirm:");
 			System.out.println("  Player 1: " + p1name + " -- " + p1hp + "HP " + p1sp + "SP");
@@ -145,7 +149,7 @@ public class Main
 			System.out.println("  Using moveset: " + moveset);
 			String response;
 			do
-			{				
+			{
 				System.out.print("Is this correct? (Y/N) ");
 				response = input.nextLine().toUpperCase();
 				if (response.equals(""))
@@ -163,6 +167,7 @@ public class Main
 			if (response.equals("Y"))
 			{
 				System.out.println("Okay, to battle!\n");
+				moveset = "resources/movesets/" + moveset + ".mv";
 				break;
 			}
 			else
@@ -171,8 +176,54 @@ public class Main
 			}
 		}
 		while (true);
+		// configure JavaBattle instance
+		PlayerData p1 = new PlayerData(0, p1name, p1hp, p1sp, "");
+		PlayerData p2 = new PlayerData(1, p2name, p2hp, p2sp, "");
+		JavaBattle.getInstance().config(new PlayerData[]{p1, p2}, moveset);
 	}
-	
+
+	private static void doBattle(Scanner input)
+	{
+		PlayerTurn turn;
+		do
+		{
+			// get players' moves
+			System.out.println("----Moves----");
+			PlayerData[] player = JavaBattle.getInstance().player;
+			for (int i = 0; i < 4; i++)
+			{
+				System.out.println(" " + (i + 1) + " - " + JavaBattle.getInstance().availableMoves.get(i).name);
+			}
+			Validator<String> intRangeValidator = new Validator<String>()
+			{
+				@Override
+				public String validate(String thing)
+				{
+					if (thing.contains("."))
+						return "!! \"" + thing + "\" is a decimal number! Enter an integer!";
+					int numValue;
+					try
+					{
+						numValue = Integer.valueOf(thing);
+					} catch (NumberFormatException ex)
+					{
+						return "!! \"" + thing + "\" is not a number! Enter a number this time!";
+					}
+					if (numValue < 1 || numValue > 4)
+						return "!! " + thing + " is outside the range of moveset choices! Choose a number between 1 and 4!";
+					return null;
+				}
+			};
+			int selection = prompt(player[0].name + ", choose your move: ", input, intRangeValidator);
+			player[0].nextMove = JavaBattle.getInstance().availableMoves.get(selection - 1);
+			selection = prompt(player[1].name + ", choose your move: ", input, intRangeValidator);
+			player[1].nextMove = JavaBattle.getInstance().availableMoves.get(selection - 1);
+			System.out.println(player[0].nextMove.name);
+			System.out.println(player[1].nextMove.name);
+			// determine which player goes first
+		} while (true);
+	}
+
 	private static int prompt(String msg, Scanner in, Validator<String> validator)
 	{
 		int result = 0;
@@ -195,13 +246,13 @@ public class Main
 			}
 		}
 	}
-	
+
 	private static int prompt(String msg, Scanner in, Validator<String> validator, int auto)
 	{
 		int result = 0;
 		String response = "";
 		while (true)
-		{			
+		{
 			System.out.print(msg);
 			response = in.nextLine();
 			try

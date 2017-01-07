@@ -3,9 +3,9 @@ package javabattle;
 import java.util.Random;
 
 /**
- * Class for moves. 
- * Stores name, minimum & maximum power, accuracy, SP cost, type, message to print 
- *	when used, and an array of messages to print when it misses/fails. 
+ * Class for moves.
+ * Stores name, minimum & maximum power, accuracy, SP cost, type, message to print
+ * when used, and an array of messages to print when it misses/fails.
  * Also stores status effects (if applicable), such as stat changes or conditions.
  * <p>Computes power by returning a random number between the min and max.
  * @author Zac Hayes
@@ -23,9 +23,9 @@ public class Move
 	public String usageMessage;
 	public String[] missMessages;
 	public String description;
-	
+
 	private Random myRandom = new Random();
-	
+
 	/**
 	 * Default constructor for {@link MoveKind.NORMAL}-kind moves
 	 * @param threshold Battle threshold; move will not be used in battles where both players start with less than this much HP
@@ -36,7 +36,7 @@ public class Move
 	 * @param sp Move's SP cost
 	 * @param type String value for the type of move, in the format as returned by {@link MoveKind.getName()}
 	 * @param usageMsgs Message printed when move is used
-	 * @param missMsgs Array of possible messages to print when move misses/fails. If move costs SP, the first element should be a message 
+	 * @param missMsgs Array of possible messages to print when move misses/fails. If move costs SP, the first element should be a message
 	 * for when the user does not have enough SP.
 	 * @param desc Description of move
 	 */
@@ -53,14 +53,14 @@ public class Move
 		this.missMessages = missMsgs;
 		this.description = desc;
 	}
-	
+
 	// TODO add other ctors
 
 	/**
 	 * @return Move's maximum power
 	 */
 	public int getMaximumPower() { return this.maximumPower; }
-	
+
 	/**
 	 * Generates a random value between the move's minimum and maximum power values.
 	 * @param override If a fixed value is desired, returns this value. Generates random as usual if value is -1 or outside the min to max range
@@ -78,9 +78,9 @@ public class Move
 		else
 			return (minimumPower + myRandom.nextInt(range + 1));
 	}
-	
+
 	/**
-	 * Generates a random value between the move's minimum and maximum power values. 
+	 * Generates a random value between the move's minimum and maximum power values.
 	 * Same as calling getPower(-1).
 	 * @return Random value between min and max power
 	 */
@@ -88,7 +88,7 @@ public class Move
 	{
 		return getPower(-1);
 	}
-	
+
 	/**
 	 * @return String representation of move's power range, min to max
 	 */
@@ -115,9 +115,9 @@ public class Move
 				return String.valueOf(minimumPower + "-" + maximumPower);
 		}
 	}
-	
+
 	/**
-	 * Returns the move's {@code usageMessage} with the user's name in place of 
+	 * Returns the move's {@code usageMessage} with the user's name in place of
 	 * every '*' and the target's name in place of every '`'.
 	 * @param user PlayerData using the move
 	 * @param target PlayerData the move is being used on
@@ -127,11 +127,11 @@ public class Move
 	{
 		return this.usageMessage.replace("*", user.name).replace("`", target.name);
 	}
-	
+
 	/**
-	 * Returns a random miss message from the move's {@code missMessages} array 
-	 * with the user's name in place of every '*' and the target's name in place 
-	 * of every '`'. If the user does not have enough SP to use the move, returns 
+	 * Returns a random miss message from the move's {@code missMessages} array
+	 * with the user's name in place of every '*' and the target's name in place
+	 * of every '`'. If the user does not have enough SP to use the move, returns
 	 * the first miss message (for when the user doesn't have enough SP).
 	 * @param user PlayerData using the move
 	 * @param target PlayerData the move is being used on
@@ -151,12 +151,12 @@ public class Move
 				msg = this.missMessages[myRandom.nextInt(this.missMessages.length)];
 		return msg.replace("*", user.name).replace("`", target.name);
 	}
-	
+
 	// TODO Add methods related to stats, conditions, healing, or defense
 
 	/**
-	 * Executes the move from {@code user} to {@code target}. Checks accuracy for 
-	 * miss/hit, inflicts damage, deducts SP, determines SMAAAASH, determines critical 
+	 * Executes the move from {@code user} to {@code target}. Checks accuracy for
+	 * miss/hit, inflicts damage, deducts SP, determines SMAAAASH, determines critical
 	 * hit, and returns a {@link MoveResults} object reflecting these data.
 	 * @param user PlayerData attacking with the move
 	 * @param target PlayerData being attacked
@@ -202,7 +202,7 @@ public class Move
 			// round target's HP to 0 if below
 			if (target.HP <= 0)
 				target.HP = 0;
-			
+
 			return new MoveResults(this, true, power, smaaaash, target.HP == 0);
 		}
 	}
