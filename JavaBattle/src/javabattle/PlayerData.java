@@ -1,7 +1,7 @@
 package javabattle;
 
 /**
- * Stores a Player's name, HP, HP max, SP, SP max, sprite, next move, and defense state. 
+ * Stores a Player's name, HP, HP max, SP, SP max, sprite, next move, and defense state.
  * Also stores stats (offense, defense, speed, and guts; scale of 0 - 20, normal value = 10)
  * @author Zac Hayes
  */
@@ -15,7 +15,7 @@ public class PlayerData
 	public int maxSP;
 	public String sprite;
 	public Move nextMove;
-	
+
 	/**
 	 * PlayerData constructor
 	 * @param num Player number (0 for P1, 1 for P2)
@@ -34,5 +34,20 @@ public class PlayerData
 		this.maxSP = sp;
 		this.sprite = sprite;
 		this.nextMove = null;
+	}
+
+	public MoveResults executeMove(PlayerData target)
+	{
+		return this.nextMove.execute(this, target);
+	}
+
+	public String getMoveUsageMessage(PlayerData target)
+	{
+		return this.nextMove.getUsageMessage(this, target);
+	}
+
+	public String getMoveMissMessage(PlayerData target)
+	{
+		return this.nextMove.getMissMessage(this, target);
 	}
 }

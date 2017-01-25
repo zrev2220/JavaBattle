@@ -12,7 +12,7 @@ public class PlayerDataTest
 	 * Default constructor
 	 */
 	public PlayerDataTest() {}
-	
+
 	/**
 	 * Test method
 	 */

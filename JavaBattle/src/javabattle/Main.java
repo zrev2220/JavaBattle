@@ -3,6 +3,7 @@ package javabattle;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -42,6 +43,7 @@ public class Main
 		String p1name, p2name;
 		int p1hp, p1sp, p2hp, p2sp;
 		String moveset = "Default";
+		boolean setupDone = false;
 		do
 		{
 			Validator<String> numberValidator = new Validator<String>()
@@ -64,6 +66,7 @@ public class Main
 					return null;
 				}
 			};
+			boolean exit = false;
 			do
 			{
 				System.out.print("Player 1's name: ");
@@ -73,10 +76,11 @@ public class Main
 					System.out.println("!! You didn't enter anything! That's not gonna work!");
 					continue;
 				}
-				break;
-			} while (true);
+				exit = true;
+			} while (!exit);
 			p1hp = prompt("Player 1's HP (default 300): ", input, numberValidator, 300);
 			p1sp = prompt("Player 1's SP (default 50): ", input, numberValidator, 50);
+			exit = false;
 			do
 			{
 				System.out.print("Player 2's name: ");
@@ -91,8 +95,8 @@ public class Main
 					System.out.println("!! That's the same as Player 1's name! You'll have to enter something else!");
 					continue;
 				}
-				break;
-			} while (true);
+				exit = true;
+			} while (!exit);
 			p2hp = prompt("Player 2's HP (default 300): ", input, numberValidator, 300);
 			p2sp = prompt("Player 2's SP (default 50): ", input, numberValidator, 50);
 			// load move files from resources folder
@@ -148,6 +152,7 @@ public class Main
 			System.out.println("  Player 2: " + p2name + " -- " + p2hp + "HP " + p2sp + "SP");
 			System.out.println("  Using moveset: " + moveset);
 			String response;
+			exit = false;
 			do
 			{
 				System.out.print("Is this correct? (Y/N) ");
@@ -162,20 +167,20 @@ public class Main
 					System.out.println("!! That's not a Y or an N! Enter a Y for yes or an N for no!");
 					continue;
 				}
-				break;
-			} while (true);
+				exit = true;
+			} while (!exit);
 			if (response.equals("Y"))
 			{
 				System.out.println("Okay, to battle!\n");
 				moveset = "resources/movesets/" + moveset + ".mv";
-				break;
+				setupDone = true;
 			}
 			else
 			{
 				System.out.println("All right, then let's try again....\n");
 			}
 		}
-		while (true);
+		while (!setupDone);
 		// configure JavaBattle instance
 		PlayerData p1 = new PlayerData(0, p1name, p1hp, p1sp, "");
 		PlayerData p2 = new PlayerData(1, p2name, p2hp, p2sp, "");
@@ -185,15 +190,21 @@ public class Main
 	private static void doBattle(Scanner input)
 	{
 		PlayerTurn turn;
+		Random myRandom = new Random();
+		boolean doneBattling = false;
 		do
 		{
-			// get players' moves
+			// print moves and player status
+			JavaBattle.getInstance().setAvailableMoves();
 			System.out.println("----Moves----");
 			PlayerData[] player = JavaBattle.getInstance().player;
 			for (int i = 0; i < 4; i++)
 			{
 				System.out.println(" " + (i + 1) + " - " + JavaBattle.getInstance().availableMoves.get(i).name);
 			}
+			System.out.printf("%s:   %sHP   %sSP\n", player[0].name, player[0].HP, player[0].SP);
+			System.out.printf("%s:   %sHP   %sSP\n", player[1].name, player[1].HP, player[1].SP);
+			// get players' moves
 			Validator<String> intRangeValidator = new Validator<String>()
 			{
 				@Override
@@ -218,17 +229,38 @@ public class Main
 			player[0].nextMove = JavaBattle.getInstance().availableMoves.get(selection - 1);
 			selection = prompt(player[1].name + ", choose your move: ", input, intRangeValidator);
 			player[1].nextMove = JavaBattle.getInstance().availableMoves.get(selection - 1);
-			System.out.println(player[0].nextMove.name);
-			System.out.println(player[1].nextMove.name);
 			// determine which player goes first
-		} while (true);
+			int firstRand = myRandom.nextInt(2);
+			PlayerData firstPlayer = player[firstRand];
+			PlayerData secondPlayer = player[firstRand ^ 1];
+			// execute moves
+			MoveResults result = firstPlayer.executeMove(secondPlayer);
+			System.out.println(firstPlayer.getMoveUsageMessage(secondPlayer));
+			if (result.hit)
+				System.out.printf("%sHP of damage to %s!\n", result.damage, secondPlayer.name);
+			else
+				System.out.println(firstPlayer.getMoveMissMessage(secondPlayer));
+			if (!result.critical)
+			{
+				// secondPlayer's turn
+				result = secondPlayer.executeMove(firstPlayer);
+				System.out.println(secondPlayer.getMoveUsageMessage(firstPlayer));
+				if (result.hit)
+					System.out.printf("%sHP of damage to %s!\n", result.damage, firstPlayer.name);
+				else
+					System.out.println(secondPlayer.getMoveMissMessage(firstPlayer));
+			}
+			doneBattling = result.critical;
+			// TODO Add SP values to moves (so we can see what stuff costs); Add end game sequence; Check SMAAAASHing?
+		} while (!doneBattling);
 	}
 
 	private static int prompt(String msg, Scanner in, Validator<String> validator)
 	{
 		int result = 0;
 		String response = "";
-		while (true)
+		boolean exit = false;
+		while (!exit)
 		{
 			System.out.print(msg);
 			response = in.nextLine();
@@ -238,20 +270,22 @@ public class Main
 				if (valid != null)
 					throw new Exception(valid);
 				result = Integer.valueOf(response);
-				return result;
+				exit = true;
 			}
 			catch (Exception ex)
 			{
 				System.out.println(ex.getMessage());
 			}
 		}
+		return result;
 	}
 
 	private static int prompt(String msg, Scanner in, Validator<String> validator, int auto)
 	{
 		int result = 0;
 		String response = "";
-		while (true)
+		boolean exit = false;
+		while (!exit)
 		{
 			System.out.print(msg);
 			response = in.nextLine();
@@ -264,7 +298,7 @@ public class Main
 					// pressed enter with no input, use <auto> value
 					return auto;
 				result = Integer.valueOf(response);
-				break;
+				exit = true;
 			}
 			catch (Exception ex)
 			{

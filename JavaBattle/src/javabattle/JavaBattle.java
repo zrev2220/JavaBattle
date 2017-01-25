@@ -64,7 +64,7 @@ public class JavaBattle
 		return null;
 	}
 
-	private void setAvailableMoves()
+	public void setAvailableMoves()
 	{
 		availableMoves.clear();
 		for (int i = 0; i < 4; i++)

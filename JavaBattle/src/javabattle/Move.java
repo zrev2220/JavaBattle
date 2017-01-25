@@ -125,7 +125,12 @@ public class Move
 	 */
 	public String getUsageMessage(PlayerData user, PlayerData target)
 	{
-		return this.usageMessage.replace("*", user.name).replace("`", target.name);
+		String msg = "";
+		if (user.SP < this.SPcost)
+			msg = this.missMessages[0];
+		else
+			msg = this.usageMessage;
+		return msg.replace("*", user.name).replace("`", target.name);
 	}
 
 	/**
@@ -142,7 +147,7 @@ public class Move
 		String msg;
 		boolean noSP = user.SP < this.SPcost;
 		if (noSP)
-			msg = this.missMessages[0];
+			msg = "but * does not have enough SP!";
 		else
 			if (this.SPcost != 0)
 				// can't pick the first one
