@@ -76,6 +76,11 @@ public class Main
 					System.out.println("!! You didn't enter anything! That's not gonna work!");
 					continue;
 				}
+				else if (p1name.length() > 16)
+				{
+					System.out.println("!! That name's too long. Pick a shorter one (less than 17 characters).");
+					continue;
+				}
 				exit = true;
 			} while (!exit);
 			p1hp = prompt("Player 1's HP (default 300): ", input, numberValidator, 300);
@@ -93,6 +98,11 @@ public class Main
 				else if (p2name.equals(p1name))
 				{
 					System.out.println("!! That's the same as Player 1's name! You'll have to enter something else!");
+					continue;
+				}
+				else if (p1name.length() > 16)
+				{
+					System.out.println("!! That name's too long. Pick a shorter one (less than 17 characters).");
 					continue;
 				}
 				exit = true;
@@ -202,8 +212,10 @@ public class Main
 			{
 				System.out.println(" " + (i + 1) + " - " + JavaBattle.getInstance().availableMoves.get(i).name);
 			}
-			System.out.printf("%s:   %sHP   %sSP\n", player[0].name, player[0].HP, player[0].SP);
-			System.out.printf("%s:   %sHP   %sSP\n", player[1].name, player[1].HP, player[1].SP);
+			String nameFlag = "%-" + String.valueOf(Math.max(player[0].name.length(), player[1].name.length())) + "s";
+			String hpFlag = String.valueOf("%" + String.valueOf(Math.max(player[0].maxHP, player[1].maxHP)).length() + "d");
+			System.out.printf(nameFlag + ": " + hpFlag + "HP   %sSP\n", player[0].name, player[0].HP, player[0].SP);
+			System.out.printf(nameFlag + ": " + hpFlag + "HP   %sSP\n", player[1].name, player[1].HP, player[1].SP);
 			// get players' moves
 			Validator<String> intRangeValidator = new Validator<String>()
 			{
