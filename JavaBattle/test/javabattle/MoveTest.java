@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
 public class MoveTest
 {
 	private Move testMove;
-	
+
 	public MoveTest() {}
-	
+
 	@Before
 	public void BeforeTest()
 	{
@@ -80,6 +80,17 @@ public class MoveTest
 		String expResult = "Joe used the test move on Bill!";
 		String result = testMove.getUsageMessage(user, target);
 		assertEquals(expResult, result);
+		Move anotherTestMove = new Move(testMove.battleThreshold, "Another move", 0, 10, 90, 40, testMove.type.getName(), "* used another test move!",
+			new String[]{
+				"* tried to use another test move,",
+				"* missed!",
+				"Just missed!",
+				"` barely evaded it!"},
+			"Another test move.");
+		user.nextMove = anotherTestMove;
+		expResult = "Joe tried to use another test move,";
+		result = anotherTestMove.getUsageMessage(user, target);
+		assertEquals(expResult, result);
 	}
 
 	/**
@@ -100,7 +111,8 @@ public class MoveTest
 				"Just missed!",
 				"` barely evaded it!"},
 			"Another test move.");
-		String expResult = "Tom tried to use another test move,";
+		user.nextMove = anotherTestMove;
+		String expResult = "but Tom does not have enough SP!";
 		result = anotherTestMove.getMissMessage(user, target);
 		assertEquals(expResult, result);
 	}
