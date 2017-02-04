@@ -206,16 +206,8 @@ public class Main
 		{
 			// print moves and player status
 			JavaBattle.getInstance().setAvailableMoves();
-			System.out.println("----Moves----");
 			PlayerData[] player = JavaBattle.getInstance().player;
-			for (int i = 0; i < 4; i++)
-			{
-				System.out.println(" " + (i + 1) + " - " + JavaBattle.getInstance().availableMoves.get(i).name);
-			}
-			String nameFlag = "%-" + String.valueOf(Math.max(player[0].name.length(), player[1].name.length())) + "s";
-			String hpFlag = String.valueOf("%" + String.valueOf(Math.max(player[0].maxHP, player[1].maxHP)).length() + "d");
-			System.out.printf(nameFlag + ": " + hpFlag + "HP   %sSP\n", player[0].name, player[0].HP, player[0].SP);
-			System.out.printf(nameFlag + ": " + hpFlag + "HP   %sSP\n", player[1].name, player[1].HP, player[1].SP);
+			printMovesAndStatus(player);
 			// get players' moves
 			Validator<String> intRangeValidator = new Validator<String>()
 			{
@@ -265,6 +257,43 @@ public class Main
 			doneBattling = result.critical;
 			// TODO Add SP values to moves (so we can see what stuff costs); Add end game sequence; Check SMAAAASHing?
 		} while (!doneBattling);
+	}
+
+	private static void printMovesAndStatus(PlayerData[] player)
+	{
+		System.out.println("----Moves----");
+		// determine length of longest move name to set format flag
+		int maxLength = 0;
+		int maxPowStrLength = 0;
+		int maxAccLength = 0;
+		int maxSPLength = 0;
+		for (Move move : JavaBattle.getInstance().availableMoves)
+		{
+			maxLength = (move.name.length() > maxLength) ? move.name.length() : maxLength;
+			maxPowStrLength = (move.getPowerRangeString().length() > maxPowStrLength) ? move.getPowerRangeString().length() : maxPowStrLength;
+			maxAccLength = (String.valueOf(move.accuracy).length() > maxAccLength) ? String.valueOf(move.accuracy).length() : maxAccLength;
+			maxSPLength = (String.valueOf(move.SPcost).length() > maxSPLength) ? String.valueOf(move.SPcost).length() : maxSPLength;
+		}
+		maxAccLength++;
+		String moveNameFlag = "%-" + String.valueOf(maxLength) + "s";
+		String powStrFlag = "%-" + String.valueOf(maxPowStrLength) + "s";
+		String accFlag = "%-" + String.valueOf(maxAccLength) + "s";
+		String moveSPFlag = "%-" + String.valueOf(maxSPLength) + "s";
+		for (int i = 0; i < 4; i++)
+		{
+			Move theMove = JavaBattle.getInstance().availableMoves.get(i);
+			System.out.printf(" %d - " + moveNameFlag + "  Pow: " + powStrFlag + "  Acc: " + accFlag + "  SP: " + moveSPFlag + "\n",
+				(i + 1),
+				theMove.name,
+				theMove.getPowerRangeString().replace("HP", ""),
+				theMove.accuracy + "%",
+				theMove.SPcost);
+		}
+		String nameFlag = "%-" + String.valueOf(Math.max(player[0].name.length(), player[1].name.length())) + "s";
+		String hpFlag = String.valueOf("%" + String.valueOf(Math.max(player[0].maxHP, player[1].maxHP)).length() + "d");
+		String spFlag = String.valueOf("%" + String.valueOf(Math.max(player[0].maxSP, player[1].maxSP)).length() + "d");
+		System.out.printf(nameFlag + ": " + hpFlag + "HP  " + spFlag + "SP\n", player[0].name, player[0].HP, player[0].SP);
+		System.out.printf(nameFlag + ": " + hpFlag + "HP  " + spFlag + "SP\n", player[1].name, player[1].HP, player[1].SP);
 	}
 
 	private static int prompt(String msg, Scanner in, Validator<String> validator)
