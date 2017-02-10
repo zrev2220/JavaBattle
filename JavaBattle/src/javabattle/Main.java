@@ -202,11 +202,11 @@ public class Main
 		PlayerTurn turn;
 		Random myRandom = new Random();
 		boolean doneBattling = false;
+		PlayerData[] player = JavaBattle.getInstance().player;
 		do
 		{
 			// print moves and player status
 			JavaBattle.getInstance().setAvailableMoves();
-			PlayerData[] player = JavaBattle.getInstance().player;
 			printMovesAndStatus(player);
 			// get players' moves
 			Validator<String> intRangeValidator = new Validator<String>()
@@ -255,8 +255,26 @@ public class Main
 					System.out.println(secondPlayer.getMoveMissMessage(firstPlayer));
 			}
 			doneBattling = result.critical;
-			// TODO Add SP values to moves (so we can see what stuff costs); Add end game sequence; Check SMAAAASHing?
+			// TODO: Add end game sequence; Check SMAAAASHing?
 		} while (!doneBattling);
+
+		PlayerData defeatedPlayer = (player[0].HP == 0) ? player[0] : player[1];
+		PlayerData winner = (defeatedPlayer.equals(player[0])) ? player[1] : player[0];
+		int r = myRandom.nextInt(100);
+		if (r < 40)
+			System.out.println(defeatedPlayer.name + " got hurt and collapsed...");
+		else if (r < 60)
+			System.out.println(defeatedPlayer.name + " was KO'd!");
+		else if (r < 80)
+			System.out.println(defeatedPlayer.name + " fainted...");
+		else if (r < 90)
+			System.out.println(defeatedPlayer.name + " has taken enough damage and decided to quit.");
+		else
+			System.out.println(defeatedPlayer.name + " has had enough of this nonsense.");
+
+		System.out.println(winner.name + " won!");
+
+		// TODO: Add pauses between message printing to slow things down
 	}
 
 	private static void printMovesAndStatus(PlayerData[] player)
