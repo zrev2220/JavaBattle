@@ -125,11 +125,7 @@ public class Move
 	 */
 	public String getUsageMessage(PlayerData user, PlayerData target)
 	{
-		String msg = "";
-		if (user.SP < this.SPcost)
-			msg = this.missMessages[0];
-		else
-			msg = this.usageMessage;
+		String msg = this.usageMessage;
 		return msg.replace("*", user.name).replace("`", target.name);
 	}
 
@@ -155,6 +151,11 @@ public class Move
 			else
 				msg = this.missMessages[myRandom.nextInt(this.missMessages.length)];
 		return msg.replace("*", user.name).replace("`", target.name);
+	}
+
+	public String getSPFailMessage(PlayerData user, PlayerData target)
+	{
+		return this.missMessages[0].replace("*", user.name).replace("`", target.name);
 	}
 
 	// TODO Add methods related to stats, conditions, healing, or defense
@@ -194,7 +195,7 @@ public class Move
 			if (this.type == MoveType.PHYSICAL_MELEE)
 			{
 				rand = myRandom.nextInt(100);
-				smaaaash = rand < 10;
+				smaaaash = rand < 10; // TODO: Add guts value when operational
 				if (smaaaash)
 					power *= 2.0 + myRandom.nextDouble();
 			}

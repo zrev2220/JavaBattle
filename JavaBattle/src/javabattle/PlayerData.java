@@ -50,4 +50,9 @@ public class PlayerData
 	{
 		return this.nextMove.getMissMessage(this, target);
 	}
+
+	public String getMoveSPFailMessage(PlayerData target)
+	{
+		return this.nextMove.getSPFailMessage(this, target);
+	}
 }
