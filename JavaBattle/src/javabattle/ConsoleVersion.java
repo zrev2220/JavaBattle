@@ -184,7 +184,6 @@ public class ConsoleVersion
 
 	private static void doBattle(Scanner input)
 	{
-		PlayerTurn turn; // TODO: <turn> not used. ...Use it?
 		Random myRandom = new Random();
 		boolean doneBattling = false;
 		PlayerData[] player = JavaBattle.getInstance().player;
@@ -222,36 +221,12 @@ public class ConsoleVersion
 			PlayerTurn second = new PlayerTurn(player[firstRand ^ 1], player[firstRand]);
 			// execute moves
 			first.execute();
-			MoveResults result = first.result;
-			System.out.println(first.useMsg);
-			pause(1500);
-			if (result.smaaaash)
-			{
-				System.out.println("\nSMAAAASH!!\n");
-				pause(1500);
-			}
-			if (result.hit)
-				System.out.printf("%sHP of damage to %s!\n", result.damage, second.user.name);
-			else
-				System.out.println(first.missMsg);
-			pause(1500);
+			MoveResults result = printExecution(first, second);
 			if (!result.critical)
 			{
 				// secondPlayer's turn
 				second.execute();
-				result = second.result;
-				System.out.println(second.useMsg);
-				pause(1500);
-				if (result.smaaaash)
-				{
-					System.out.println("\nSMAAAASH!!\n");
-					pause(1500);
-				}
-				if (result.hit)
-					System.out.printf("%sHP of damage to %s!\n", result.damage, first.user.name);
-				else
-					System.out.println(second.missMsg);
-				pause(1500);
+				printExecution(second, first);
 			}
 			doneBattling = result.critical;
 			if (!doneBattling)
@@ -274,6 +249,24 @@ public class ConsoleVersion
 
 		pause(2000);
 		System.out.println("\n" + winner.name + " won!");
+	}
+
+	private static MoveResults printExecution(PlayerTurn first, PlayerTurn second)
+	{
+		MoveResults result = first.result;
+		System.out.println(first.useMsg);
+		pause(1500);
+		if (result.smaaaash)
+		{
+			System.out.println("\nSMAAAASH!!\n");
+			pause(1500);
+		}
+		if (result.hit)
+			System.out.printf("%sHP of damage to %s!\n", result.damage, second.user.name);
+		else
+			System.out.println(first.missMsg);
+		pause(1500);
+		return result;
 	}
 
 	private static void getMoveSelection(PlayerData player, Scanner input, Validator<String> intRangeValidator)

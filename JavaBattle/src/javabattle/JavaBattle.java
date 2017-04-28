@@ -1,7 +1,5 @@
 package javabattle;
 /* TODO:
-	- Write PlayerTurn class to execute a player's move and record results (hit/miss,
-SMAAAASH, KO, etc.)
 	- Write Statistics class to hold # of turns, etc.
 */
 
