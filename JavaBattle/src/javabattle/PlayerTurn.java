@@ -16,11 +16,11 @@ public class PlayerTurn
 	public StatusCondition condition;
 	public StatChangeThingy statThing;
 	public DefenseThingy defenseThing;
-	
+
 	   TODO Add these fields if necessary
 	public int spRecovered;
 	*/
-	
+
 	public boolean executed;
 
 	/**
@@ -36,12 +36,12 @@ public class PlayerTurn
 		this.result = null;
 		this.useMsg = "";
 		this.missMsg = "";
-		
+
 		this.executed = false;
 	}
-	
+
 	/**
-	 * Executes {@code user}'s {@code nextMove} using {@link Move.execute}. The 
+	 * Executes {@code user}'s {@code nextMove} using {@link Move.execute}. The
 	 * {@code PlayerTurn}'s fields are then set to values based on the move's results.
 	 */
 	public void execute()
@@ -49,16 +49,15 @@ public class PlayerTurn
 		result = move.execute(user, target);
 		if (result.insufficientSP)
 		{
-			useMsg = move.getMissMessage(user, target);
-			missMsg = "But * doesn't have enough SP!".replace("*", user.name);
+			useMsg = user.getMoveSPFailMessage(target);
+			missMsg = user.getMoveMissMessage(target);
 		}
 		else
 		{
-			useMsg = move.getUsageMessage(user, target);
+			useMsg = user.getMoveUsageMessage(target);
 			if (!result.hit)
-				missMsg = move.getMissMessage(user, target);				
+				missMsg = move.getMissMessage(user, target);
 		}
-		
 		executed = true;
 	}
 }

@@ -218,14 +218,12 @@ public class ConsoleVersion
 			getMoveSelection(player[1], input, intRangeValidator);
 			// determine which player goes first
 			int firstRand = myRandom.nextInt(2);
-			PlayerData firstPlayer = player[firstRand];
-			PlayerData secondPlayer = player[firstRand ^ 1];
+			PlayerTurn first = new PlayerTurn(player[firstRand], player[firstRand ^ 1]);
+			PlayerTurn second = new PlayerTurn(player[firstRand ^ 1], player[firstRand]);
 			// execute moves
-			MoveResults result = firstPlayer.executeMove(secondPlayer);
-				if (result.insufficientSP)
-					System.out.println(firstPlayer.getMoveSPFailMessage(secondPlayer));
-				else
-					System.out.println(firstPlayer.getMoveUsageMessage(secondPlayer));
+			first.execute();
+			MoveResults result = first.result;
+			System.out.println(first.useMsg);
 			pause(1500);
 			if (result.smaaaash)
 			{
@@ -233,18 +231,16 @@ public class ConsoleVersion
 				pause(1500);
 			}
 			if (result.hit)
-				System.out.printf("%sHP of damage to %s!\n", result.damage, secondPlayer.name);
+				System.out.printf("%sHP of damage to %s!\n", result.damage, second.user.name);
 			else
-				System.out.println(firstPlayer.getMoveMissMessage(secondPlayer));
+				System.out.println(first.missMsg);
 			pause(1500);
 			if (!result.critical)
 			{
 				// secondPlayer's turn
-				result = secondPlayer.executeMove(firstPlayer);
-				if (result.insufficientSP)
-					System.out.println(secondPlayer.getMoveSPFailMessage(firstPlayer));
-				else
-					System.out.println(secondPlayer.getMoveUsageMessage(firstPlayer));
+				second.execute();
+				result = second.result;
+				System.out.println(second.useMsg);
 				pause(1500);
 				if (result.smaaaash)
 				{
@@ -252,9 +248,9 @@ public class ConsoleVersion
 					pause(1500);
 				}
 				if (result.hit)
-					System.out.printf("%sHP of damage to %s!\n", result.damage, firstPlayer.name);
+					System.out.printf("%sHP of damage to %s!\n", result.damage, first.user.name);
 				else
-					System.out.println(secondPlayer.getMoveMissMessage(firstPlayer));
+					System.out.println(second.missMsg);
 				pause(1500);
 			}
 			doneBattling = result.critical;

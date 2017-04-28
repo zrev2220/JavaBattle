@@ -2,8 +2,6 @@ package javabattle;
 /* TODO:
 	- Write PlayerTurn class to execute a player's move and record results (hit/miss,
 SMAAAASH, KO, etc.)
-	- Write Move.execute()
-	- Write command line code and get a basic battle working
 	- Write Statistics class to hold # of turns, etc.
 */
 
