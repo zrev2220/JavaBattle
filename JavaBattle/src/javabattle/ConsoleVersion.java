@@ -249,6 +249,7 @@ public class ConsoleVersion
 
 		pause(2000);
 		System.out.println("\n" + winner.name + " won!");
+		Statistics.getInstance().print();
 	}
 
 	private static MoveResults printExecution(PlayerTurn first, PlayerTurn second)
@@ -258,7 +259,14 @@ public class ConsoleVersion
 		pause(1500);
 		if (result.smaaaash)
 		{
-			System.out.println("\nSMAAAASH!!\n");
+			String[] smaaaash = {"S", "M", "A", "A", "A", "A", "S", "H", "!", "!"};
+			System.out.println("");
+			for (String letter : smaaaash)
+			{
+				System.out.print(letter);
+				pause(100);
+			}
+			System.out.println("\n");
 			pause(1500);
 		}
 		if (result.hit)

@@ -1,0 +1,12 @@
+Turns: 7
+==== Ex ====	Defeat
+Damage Given: 79
+Hit Percentage: 66.7%
+SMAAAASH!! Attacks: 0
+SP Used: 32
+
+==== Why ====	Victory
+Damage Given: 133
+Hit Percentage: 75.0%
+SMAAAASH!! Attacks: 1
+SP Used: 42

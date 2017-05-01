@@ -59,5 +59,6 @@ public class PlayerTurn
 				missMsg = move.getMissMessage(user, target);
 		}
 		executed = true;
+		Statistics.getInstance().update(this);
 	}
 }
