@@ -12,13 +12,13 @@ import javax.swing.UIManager;
  *
  * @author Zac Hayes
  */
-public class BattleWindow extends javax.swing.JFrame
+public class BattleWindow_f extends javax.swing.JFrame
 {
 
 	/**
 	 * Creates new form BattleWindow
 	 */
-	public BattleWindow()
+	public BattleWindow_f()
 	{
 		initComponents();
 		getContentPane().setBackground(new Color(192, 192, 192));
@@ -269,8 +269,9 @@ public class BattleWindow extends javax.swing.JFrame
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
 		{
-			java.util.logging.Logger.getLogger(BattleWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(BattleWindow_f.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+		//</editor-fold>
 		//</editor-fold>
 
 		//</editor-fold>
@@ -280,7 +281,7 @@ public class BattleWindow extends javax.swing.JFrame
 		{
 			public void run()
 			{
-				new BattleWindow().setVisible(true);
+				new BattleWindow_f().setVisible(true);
 			}
 		});
 	}
