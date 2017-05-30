@@ -1,6 +1,8 @@
 package javabattle;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -109,5 +111,33 @@ public class MovePanel extends JPanel
 			infoPanel.add(conditionLabel);
 
 		add(infoPanel, "growx, pushx");
+	}
+
+	@Override
+	public void setEnabled(boolean flag)
+	{
+		if (flag)
+		{
+			numTextField.setForeground(Color.BLACK);
+			numTextField.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+			nameLabel.setForeground(Color.BLACK);
+			powerLabel.setForeground(Color.BLACK);
+			accuracyLabel.setForeground(Color.BLACK);
+			int sp = Integer.valueOf(spLabel.getText().substring(spLabel.getText().indexOf(":") + 1));
+			spLabel.setForeground((sp != 0) ? Color.BLUE : (Color.BLACK));
+			statLabel.setForeground(Color.BLACK);
+			conditionLabel.setForeground(Color.BLACK);
+		}
+		else
+		{
+			numTextField.setForeground(Color.GRAY);
+			numTextField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+			nameLabel.setForeground(Color.GRAY);
+			powerLabel.setForeground(Color.GRAY);
+			accuracyLabel.setForeground(Color.GRAY);
+			spLabel.setForeground(Color.GRAY);
+			statLabel.setForeground(Color.GRAY);
+			conditionLabel.setForeground(Color.GRAY);
+		}
 	}
 }
