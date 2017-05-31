@@ -1,8 +1,7 @@
 package javabattle;
+// TODO: Add icons to info labels
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -24,6 +23,9 @@ public class MovePanel extends JPanel
 		conditionLabel = new JLabel();
 	// End of component declaration
 
+	private String key;
+	private Move panelMove;
+
 	public static void main(String[] args)
 	{
 		JFrame testFrame = new JFrame();
@@ -38,7 +40,8 @@ public class MovePanel extends JPanel
 
 	public MovePanel()
 	{
-		Move testMove = new Move(0, "Test Move", 10, 50, 90, 5, MoveType.PHYSICAL_MELEE.getName(), "Using the test move", new String[]{"Missed"}, "A cool description");
+		panelMove = new Move(0, "N/A", 0, 0, 0, 0, MoveType.PHYSICAL_MELEE.getName(), "", new String[]{""}, "");
+		key = "";
 		setLayout(new MigLayout("aligny center, gap 0"));
 
 		numTextField.setEditable(false);
@@ -63,22 +66,18 @@ public class MovePanel extends JPanel
 			}
 		});
 
-		numTextField.setText("1");
 		add(numTextField, "spany 2, gapright 5");
 
-		nameLabel.setText(testMove.name);
 		nameLabel.setFont(new Font("Consolas", Font.PLAIN, 16));
 		nameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		add(nameLabel, "growx, wrap");
 
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.X_AXIS));
-			powerLabel.setText(testMove.getPowerRangeString());
 			powerLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			powerLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			infoPanel.add(powerLabel);
 			infoPanel.add(Box.createGlue());
 
-			accuracyLabel.setText(testMove.accuracy + "%");
 			accuracyLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			accuracyLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			infoPanel.add(accuracyLabel);
@@ -92,25 +91,35 @@ public class MovePanel extends JPanel
 					spLabel.setForeground((Integer.valueOf(spLabel.getText()) > 0) ? Color.BLUE : Color.GRAY);
 				}
 			});
-			spLabel.setText(String.valueOf(testMove.SPcost));
 			spLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			spLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			infoPanel.add(spLabel);
 			infoPanel.add(Box.createGlue());
 
 			// TODO: Add stat/cond setting when that's added
-			statLabel.setText("N/A");
 			statLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			statLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			infoPanel.add(statLabel);
 			infoPanel.add(Box.createGlue());
 
-			conditionLabel.setText("N/A");
 			conditionLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			conditionLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			infoPanel.add(conditionLabel);
 
 		add(infoPanel, "growx, pushx");
+
+		refresh();
+	}
+
+	private void refresh()
+	{
+		numTextField.setText(key);
+		nameLabel.setText(panelMove.name);
+		powerLabel.setText(panelMove.getPowerRangeString());
+		accuracyLabel.setText(panelMove.accuracy + "%");
+		spLabel.setText(String.valueOf(panelMove.SPcost));
+		statLabel.setText("N/A");
+		conditionLabel.setText("N/A");
 	}
 
 	@Override
@@ -139,5 +148,19 @@ public class MovePanel extends JPanel
 			statLabel.setForeground(Color.GRAY);
 			conditionLabel.setForeground(Color.GRAY);
 		}
+	}
+
+	public String getKey() { return key; }
+	public void setKey(String key)
+	{
+		this.key = key;
+		refresh();
+	}
+
+	public Move getPanelMove() { return panelMove; }
+	public void setPanelMove(Move panelMove)
+	{
+		this.panelMove = panelMove;
+		refresh();
 	}
 }
