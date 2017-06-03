@@ -25,6 +25,7 @@ public class MovePanel extends JPanel
 
 	private String key;
 	private Move panelMove;
+	private String description;
 
 	public static void main(String[] args)
 	{
@@ -38,12 +39,16 @@ public class MovePanel extends JPanel
 		testFrame.pack();
 		testFrame.setSize(new Dimension(300, 150));
 		testFrame.setMaximumSize(new Dimension(300, 150));
+		testPanel.setDescription("Cuts down on damage taken");
+//		testPanel.setDescription("");
+		testPanel.setEnabled(false);
 	}
 
 	public MovePanel()
 	{
 		panelMove = new Move(0, "N/A", 0, 0, 0, 0, MoveType.PHYSICAL_MELEE.getName(), "", new String[]{""}, "");
 		key = "0";
+		description = "";
 		setLayout(new MigLayout("aligny center, gap 0"));
 
 		numTextField.setEditable(false);
@@ -118,7 +123,7 @@ public class MovePanel extends JPanel
 	{
 		numTextField.setText(key);
 		nameLabel.setText(panelMove.name);
-		powerLabel.setText(panelMove.getPowerRangeString());
+		powerLabel.setText((description.equals("")) ? panelMove.getPowerRangeString() : description);
 		accuracyLabel.setText(panelMove.accuracy + "%");
 		spLabel.setText(String.valueOf(panelMove.SPcost));
 		int sp = Integer.valueOf(spLabel.getText().substring(spLabel.getText().indexOf(":") + 1));
@@ -155,7 +160,8 @@ public class MovePanel extends JPanel
 			statLabel.setForeground(Color.GRAY);
 			conditionLabel.setForeground(Color.GRAY);
 		}
-		powerLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Offense_icon.png").getImage(), iconColor)));
+		if (description.equals(""))
+			powerLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Offense_icon.png").getImage(), iconColor)));
 		accuracyLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Accuracy_icon.png").getImage(), iconColor)));
 		spLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/SP_icon.png").getImage(), spColor)));
 		// TODO: Add stat, cond icon setting when they're added
@@ -176,6 +182,21 @@ public class MovePanel extends JPanel
 	public void setPanelMove(Move panelMove)
 	{
 		this.panelMove = panelMove;
+		refresh();
+	}
+
+	public String getDescription() { return description; }
+	public void setDescription(String desc)
+	{
+		this.description = desc;
+		accuracyLabel.setVisible(desc.equals(""));
+		spLabel.setVisible(desc.equals(""));
+		statLabel.setVisible(desc.equals(""));
+		conditionLabel.setVisible(desc.equals(""));
+		if (desc.equals(""))
+			powerLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Offense_icon.png").getImage(), powerLabel.getForeground())));
+		else
+			powerLabel.setIcon(null);
 		refresh();
 	}
 
