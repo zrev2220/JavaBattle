@@ -29,6 +29,7 @@ public class MovePanel extends JPanel
 
 	public static void main(String[] args)
 	{
+		// TODO: Chuck this main method when MovePanel is final (all functionality implemented)
 		JFrame testFrame = new JFrame();
 		testFrame.setVisible(true);
 		testFrame.getContentPane().setLayout(new MigLayout("insets 10, fill"));
