@@ -163,10 +163,10 @@ public class MovePanel extends JPanel
 		accuracyLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Accuracy_icon.png").getImage(), iconColor)));
 		spLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/SP_icon.png").getImage(), spColor)));
 		// TODO: Add stat, cond icon setting when they're added
-//		Image a = new ImageIcon("resources/effects/Offense_icon.png").getImage();
-//		Image b = new ImageIcon("resources/effects/up_icon.png").getImage();
-//		statLabel.setIcon(new ImageIcon(colorImage(new ImageIcon(combineImage(a, b, 2)).getImage(), new Color(0, 180, 0))));
-//		conditionLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Offense_icon.png").getImage(), iconColor)));
+		Image a = new ImageIcon("resources/effects/Offense_icon.png").getImage();
+		Image b = new ImageIcon("resources/effects/up_icon.png").getImage();
+		statLabel.setIcon(new ImageIcon(colorImage(new ImageIcon(combineImage(a, b, 2)).getImage(), new Color(0, 180, 0))));
+		conditionLabel.setIcon(new ImageIcon("resources/effects/Can't concentrate.png"));
 	}
 
 	public String getKey() { return key; }
