@@ -40,9 +40,6 @@ public class MovePanel extends JPanel
 		testFrame.pack();
 		testFrame.setSize(new Dimension(300, 150));
 		testFrame.setMaximumSize(new Dimension(300, 150));
-		testPanel.setDescription("Cuts down on damage taken");
-//		testPanel.setDescription("");
-		testPanel.setEnabled(false);
 	}
 
 	public MovePanel()
@@ -167,8 +164,8 @@ public class MovePanel extends JPanel
 		spLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/SP_icon.png").getImage(), spColor)));
 		// TODO: Add stat, cond icon setting when they're added
 //		Image a = new ImageIcon("resources/effects/Offense_icon.png").getImage();
-//		Image b = new ImageIcon("resources/effects/SP_icon.png").getImage();
-//		statLabel.setIcon(new ImageIcon(combineImage(a, b, 2)));
+//		Image b = new ImageIcon("resources/effects/up_icon.png").getImage();
+//		statLabel.setIcon(new ImageIcon(colorImage(new ImageIcon(combineImage(a, b, 2)).getImage(), new Color(0, 180, 0))));
 //		conditionLabel.setIcon(new ImageIcon(colorImage(new ImageIcon("resources/effects/Offense_icon.png").getImage(), iconColor)));
 	}
 
@@ -244,7 +241,7 @@ public class MovePanel extends JPanel
 	private BufferedImage combineImage(Image imgA, Image imgB, int gap)
 	{
 		// Convert the image to BufferedImage
-		BufferedImage combImg = new BufferedImage(imgA.getWidth(null) + gap + imgB.getWidth(null), Math.max(imgA.getHeight(null), imgB.getHeight(nameLabel)), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage combImg = new BufferedImage(imgA.getWidth(null) + gap + imgB.getWidth(null), Math.max(imgA.getHeight(null), imgB.getHeight(null)), BufferedImage.TYPE_INT_ARGB);
 		// Draw the image on to the buffered image
 		Graphics2D g2d = combImg.createGraphics();
 		g2d.drawImage(imgA, 0, 0, null);
