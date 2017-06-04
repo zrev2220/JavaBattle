@@ -1,7 +1,4 @@
 package javabattle;
-/* TODO:
-	- Write Statistics class to hold # of turns, etc.
-*/
 
 import java.io.IOException;
 import java.util.ArrayList;
