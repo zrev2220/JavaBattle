@@ -8,6 +8,7 @@ import javax.swing.event.*;
 import net.miginfocom.swing.MigLayout;
 
 /**
+ * JPanel class displaying a {@link Move}'s information, as well as key to choose it.
  * @author Zac Hayes
  */
 public class MovePanel extends JPanel
@@ -117,6 +118,9 @@ public class MovePanel extends JPanel
 		setEnabled(true);
 	}
 
+	/**
+	 * Updates panel view to reflect changes in the panel's move and/or key.
+	 */
 	private void refresh()
 	{
 		numTextField.setText(key);
@@ -131,6 +135,10 @@ public class MovePanel extends JPanel
 		conditionLabel.setText("N/A");
 	}
 
+	/**
+	 * Updates panel's display to colored or grayscale based on {@code flag}.
+	 * @param flag Boolean enabling or disabling the panel
+	 */
 	@Override
 	public void setEnabled(boolean flag)
 	{
@@ -184,6 +192,12 @@ public class MovePanel extends JPanel
 	}
 
 	public String getDescription() { return description; }
+	/**
+	 * Sets the panel's description, which hides all info labels except for {@code powerLabel}, which displays the description.
+	 * If {@code desc} is "" (empty string), disables the description and shows all information labels.
+	 * <p>Usually, only the Defend and Rest moves use this.
+	 * @param desc Description to display. If "" (empty string), removes description.
+	 */
 	public void setDescription(String desc)
 	{
 		this.description = desc;
