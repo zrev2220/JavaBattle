@@ -36,6 +36,7 @@ public class MovePanel extends JPanel
 		testFrame.getContentPane().setLayout(new MigLayout("insets 10, fill"));
 		MovePanel testPanel = new MovePanel();
 		testPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		testPanel.setPreferredSize(new Dimension(360, 35));
 		testFrame.getContentPane().add(testPanel, "grow");
 		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		testFrame.pack();
@@ -48,7 +49,7 @@ public class MovePanel extends JPanel
 		panelMove = new Move(0, "N/A", 0, 0, 0, 0, MoveType.PHYSICAL_MELEE.getName(), "", new String[]{""}, "");
 		key = "0";
 		description = "";
-		setLayout(new MigLayout("aligny center, gap 0"));
+		setLayout(new MigLayout("aligny center, gap 0, insets 0"));
 
 		numTextField.setEditable(false);
 		numTextField.setOpaque(false);
@@ -81,11 +82,13 @@ public class MovePanel extends JPanel
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.X_AXIS));
 			powerLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			powerLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			powerLabel.setVerticalTextPosition(JLabel.TOP);
 			infoPanel.add(powerLabel);
 			infoPanel.add(Box.createGlue());
 
 			accuracyLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			accuracyLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			accuracyLabel.setVerticalTextPosition(JLabel.TOP);
 			infoPanel.add(accuracyLabel);
 			infoPanel.add(Box.createGlue());
 
@@ -99,17 +102,20 @@ public class MovePanel extends JPanel
 			});
 			spLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			spLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			spLabel.setVerticalTextPosition(JLabel.TOP);
 			infoPanel.add(spLabel);
 			infoPanel.add(Box.createGlue());
 
 			// TODO: Add stat/cond setting when that's added
 			statLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			statLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			statLabel.setVerticalTextPosition(JLabel.TOP);
 			infoPanel.add(statLabel);
 			infoPanel.add(Box.createGlue());
 
 			conditionLabel.setFont(new Font("Consolas", Font.PLAIN, 11));
 			conditionLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			conditionLabel.setVerticalTextPosition(JLabel.TOP);
 			infoPanel.add(conditionLabel);
 
 		add(infoPanel, "growx, pushx");

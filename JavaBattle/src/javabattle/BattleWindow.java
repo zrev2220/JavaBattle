@@ -31,23 +31,25 @@ public class BattleWindow extends JFrame
 	public BattleWindow()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(new MigLayout("alignx center, insets 0 0 10 0, flowy"));
+		getContentPane().setLayout(new MigLayout("alignx center, insets 0 0 10 0, flowy",
+												 "[align center]",
+												 "[|fill, grow]"));
 
 		gamePanel.setPreferredSize(new Dimension(490, 295));
 		gamePanel.setMinimumSize(new Dimension(490, 295));
 		gamePanel.setBackground(Color.BLACK);
-		getContentPane().add(gamePanel, "growx, pushx");
+		getContentPane().add(gamePanel, "growx 100, pushx 100");
 
 		moveChoicesPanel.setBorder(BorderFactory.createCompoundBorder(
 			BorderFactory.createLineBorder(Color.GRAY, 1, true),
 			BorderFactory.createLineBorder(Color.DARK_GRAY, 3)));
-		moveChoicesPanel.setLayout(new MigLayout("flowy, alignx center, gap -5, insets 0"));
+		moveChoicesPanel.setLayout(new MigLayout("flowy, alignx center, gap 5, insets 5, fill"));
 		getContentPane().add(moveChoicesPanel, "align center, gap 10");
 
 		for (MovePanel panel : movePanel)
 		{
 			panel = new MovePanel();
-			panel.setPreferredSize(new Dimension(360, 35));
+			panel.setPreferredSize(new Dimension(320, 35));
 //			panel.setBorder(BorderFactory.createLineBorder(Color.yellow));
 			moveChoicesPanel.add(panel);
 		}
