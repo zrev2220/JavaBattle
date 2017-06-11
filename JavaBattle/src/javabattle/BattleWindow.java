@@ -44,14 +44,14 @@ public class BattleWindow extends JFrame
 			BorderFactory.createLineBorder(Color.GRAY, 1, true),
 			BorderFactory.createLineBorder(Color.DARK_GRAY, 3)));
 		moveChoicesPanel.setLayout(new MigLayout("flowy, alignx center, gap 5, insets 5, fill"));
-		getContentPane().add(moveChoicesPanel, "align center, gap 10");
+		getContentPane().add(moveChoicesPanel, "align center, gap 80 80 0 0, growx, pushx");
 
 		for (MovePanel panel : movePanel)
 		{
 			panel = new MovePanel();
 			panel.setPreferredSize(new Dimension(320, 35));
 //			panel.setBorder(BorderFactory.createLineBorder(Color.yellow));
-			moveChoicesPanel.add(panel);
+			moveChoicesPanel.add(panel, "growx, pushx");
 		}
 
 		pack();
