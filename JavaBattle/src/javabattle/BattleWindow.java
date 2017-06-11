@@ -1,6 +1,7 @@
 package javabattle;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 
@@ -20,6 +21,13 @@ public class BattleWindow extends JFrame
 	JPanel gamePanel = new JPanel(); // TODO Change to GraphicsPanel after window works and GraphicsPanel class is created
 	JPanel moveChoicesPanel = new JPanel();
 	MovePanel[] movePanel = new MovePanel[6];
+
+	JMenuBar menuBar = new JMenuBar();
+	JMenu theMenu = new JMenu("Menu");
+	JMenuItem newGameMenuItem = new JMenuItem("New Game");
+	JMenuItem musicMenuItem = new JMenuItem("Change Music");
+	JMenuItem helpMenuItem = new JMenuItem("Help");
+	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	// End of component declaration
 
 	public static void main(String[] args)
@@ -30,6 +38,53 @@ public class BattleWindow extends JFrame
 
 	public BattleWindow()
 	{
+		//<editor-fold defaultstate="collapsed" desc="add menu">
+		setJMenuBar(menuBar);
+		menuBar.add(theMenu);
+		theMenu.add(newGameMenuItem); newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+		theMenu.addSeparator();
+		theMenu.add(musicMenuItem); musicMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
+		theMenu.add(helpMenuItem); helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		theMenu.addSeparator();
+		theMenu.add(exitMenuItem);
+
+		newGameMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+			}
+		});
+
+		musicMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+			}
+		});
+
+		helpMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+			}
+		});
+
+		exitMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+			}
+		});
+//</editor-fold>
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new MigLayout("alignx center, insets 0 0 10 0, flowy",
 												 "[align center]",
