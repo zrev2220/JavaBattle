@@ -6,15 +6,9 @@ import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 
 /* TODO:
-Get moveChoicesPanel sized right
-Add menu
 Tie to model and get a battle working
 */
 
-/**
- *
- * @author Zac Hayes
- */
 public class BattleWindow extends JFrame
 {
 	// Component declaration
@@ -34,6 +28,7 @@ public class BattleWindow extends JFrame
 	{
 		BattleWindow testFrame = new BattleWindow();
 		testFrame.setVisible(true);
+		testFrame.gamePanel.requestFocus();
 	}
 
 	public BattleWindow()
@@ -94,6 +89,14 @@ public class BattleWindow extends JFrame
 		gamePanel.setMinimumSize(new Dimension(490, 295));
 		gamePanel.setBackground(Color.BLACK);
 		getContentPane().add(gamePanel, "growx 100, pushx 100");
+		gamePanel.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				gamePanelKeyPressed(e);
+			}
+		});
 
 		moveChoicesPanel.setBorder(BorderFactory.createCompoundBorder(
 			BorderFactory.createLineBorder(Color.GRAY, 1, true),
@@ -113,5 +116,11 @@ public class BattleWindow extends JFrame
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((int) (0.5 * (screenSize.width - getWidth())), (int) (0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
 		setMinimumSize(getSize());
+	}
+
+	private void gamePanelKeyPressed(KeyEvent e)
+	{
+		System.out.println("Key pressed: " + e.getKeyChar()); // TODO: Remove this PoC line when actually getting move choices
+		gamePanel.requestFocus();
 	}
 }
