@@ -3,6 +3,7 @@ package javabattle;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.geom.*;
 import net.miginfocom.swing.MigLayout;
 
 /* TODO:
@@ -12,7 +13,7 @@ Tie to model and get a battle working
 public class BattleWindow extends JFrame
 {
 	// Component declaration
-	JPanel gamePanel = new JPanel(); // TODO Change to GraphicsPanel after window works and GraphicsPanel class is created
+	GamePanel gamePanel = new GamePanel(); // TODO Change to GraphicsPanel after window works and GraphicsPanel class is created
 	JPanel moveChoicesPanel = new JPanel();
 	MovePanel[] movePanel = new MovePanel[6];
 
@@ -122,5 +123,32 @@ public class BattleWindow extends JFrame
 	{
 		System.out.println("Key pressed: " + e.getKeyChar()); // TODO: Remove this PoC line when actually getting move choices
 		gamePanel.requestFocus();
+	}
+}
+
+class GamePanel extends JPanel
+{
+	final Font outputFont = new Font("Courier New", Font.PLAIN, 14);
+	final Font winFont = new Font("Impact", Font.PLAIN, 24);
+
+	public GamePanel() { super(); }
+
+	@Override
+	protected void paintComponent(Graphics g)
+	{
+		Graphics2D g2d = (Graphics2D) g;
+		super.paintComponent(g2d);
+		this.setBackground(Color.BLACK);
+		final double W = this.getWidth();
+		final double H = this.getHeight();
+		Rectangle2D.Double backgroundRect = new Rectangle2D.Double(5, 75, 480, 130); // TODO generalize
+		RoundRectangle2D.Double outputBorder = new RoundRectangle2D.Double(95, 2, 300, 70, 5, 2); // TODO generalize
+		g2d.setPaint(new Color(181, 230, 29));
+		g2d.fill(backgroundRect);
+		g2d.setPaint(Color.WHITE);
+		g2d.setStroke(new BasicStroke(2));
+		g2d.draw(outputBorder);
+
+		g2d.dispose();
 	}
 }
