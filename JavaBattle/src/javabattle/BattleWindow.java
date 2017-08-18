@@ -13,7 +13,7 @@ Tie to model and get a battle working
 public class BattleWindow extends JFrame
 {
 	// Component declaration
-	GamePanel gamePanel = new GamePanel(); // TODO Change to GraphicsPanel after window works and GraphicsPanel class is created
+	GamePanel gamePanel = new GamePanel();
 	JPanel moveChoicesPanel = new JPanel();
 	MovePanel[] movePanel = new MovePanel[6];
 
@@ -29,7 +29,6 @@ public class BattleWindow extends JFrame
 	{
 		BattleWindow testFrame = new BattleWindow();
 		testFrame.setVisible(true);
-		testFrame.gamePanel.requestFocus();
 	}
 
 	public BattleWindow()
@@ -109,7 +108,6 @@ public class BattleWindow extends JFrame
 		{
 			panel = new MovePanel();
 			panel.setPreferredSize(new Dimension(320, 35));
-//			panel.setBorder(BorderFactory.createLineBorder(Color.yellow));
 			moveChoicesPanel.add(panel, "growx, pushx");
 		}
 
@@ -117,6 +115,7 @@ public class BattleWindow extends JFrame
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((int) (0.5 * (screenSize.width - getWidth())), (int) (0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
 		setMinimumSize(getSize());
+		gamePanel.requestFocus();
 	}
 
 	private void gamePanelKeyPressed(KeyEvent e)
@@ -126,12 +125,18 @@ public class BattleWindow extends JFrame
 	}
 }
 
-class GamePanel extends JPanel
+class GamePanel extends JPanel implements Runnable
 {
 	final Font outputFont = new Font("Courier New", Font.PLAIN, 14);
 	final Font winFont = new Font("Impact", Font.PLAIN, 24);
+	private boolean isRunning;
+	private final int framerate = 17;
 
-	public GamePanel() { super(); }
+	public GamePanel()
+	{
+		super();
+		this.start();
+	}
 
 	@Override
 	protected void paintComponent(Graphics g)
@@ -141,8 +146,9 @@ class GamePanel extends JPanel
 		this.setBackground(Color.BLACK);
 		final double W = this.getWidth();
 		final double H = this.getHeight();
-		Rectangle2D.Double backgroundRect = new Rectangle2D.Double(5, 75, 480, 130); // TODO generalize
-		RoundRectangle2D.Double outputBorder = new RoundRectangle2D.Double(95, 2, 300, 70, 5, 2); // TODO generalize
+		Rectangle2D.Double backgroundRect = new Rectangle2D.Double(5, 75, W - 10, H - 150);
+		double outW = 0.62 * W;
+		RoundRectangle2D.Double outputBorder = new RoundRectangle2D.Double(0.5 * (W - outW), 2, outW, backgroundRect.getY() - 4, 5, 2); // TODO generalize
 		g2d.setPaint(new Color(181, 230, 29));
 		g2d.fill(backgroundRect);
 		g2d.setPaint(Color.WHITE);
@@ -150,5 +156,27 @@ class GamePanel extends JPanel
 		g2d.draw(outputBorder);
 
 		g2d.dispose();
+	}
+
+	public void start()
+	{
+		isRunning = true;
+		new Thread(this).start();
+	}
+
+	@Override
+	@SuppressWarnings("SleepWhileInLoop")
+	public void run()
+	{
+		while (isRunning)
+		{
+			repaint();
+			try {
+				Thread.sleep(framerate);
+			} catch (InterruptedException e)
+			{
+				JOptionPane.showConfirmDialog(null, "The graphics engine was interrupted unexpectedly.", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }
